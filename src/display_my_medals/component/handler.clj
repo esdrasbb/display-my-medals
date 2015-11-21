@@ -3,7 +3,6 @@
             [compojure.core :refer [defroutes context routes]]
             [compojure.route :as route]
             [com.stuartsierra.component :as component]
-            [ring.middleware.reload :as reload]
             [display-my-medals.routes :as home-routes]))
 
 (defroutes
@@ -18,8 +17,7 @@
 
 (defn make-handler []
   (-> (get-all-routes)
-      (handler/site)
-      (reload/wrap-reload)))
+      (handler/site)))
 
 (defrecord Handler [scheduler]
   component/Lifecycle

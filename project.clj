@@ -4,11 +4,11 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]
-                 [congomongo "0.4.6"]
+                 [com.novemberain/monger "3.0.0-rc2"]
                  [com.stuartsierra/component "0.2.3"]
                  [http-kit "2.1.18"]
                  [compojure "1.1.5"]
-                 [lib-noir "0.8.1"]
+                 [org.clojure/data.json "0.2.6"]
                  ]
 
   :main ^:skip-aot display-my-medals.bin.main

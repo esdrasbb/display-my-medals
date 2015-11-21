@@ -1,21 +1,29 @@
 (ns display-my-medals.component.mongodb
-  (:require [somnium.congomongo :as m]
+  (:require [monger.core :as mg]
             [com.stuartsierra.component :as component]))
 
 (defrecord Database [host db-name db-port opts conn]
   component/Lifecycle
   (start [component]
     (println ";; Starting Mongod on port" db-port)
-    (assoc component
-      :conn (m/make-connection db-name
-                               :host host
-                               :port db-port)))
+    (let [conn  (mg/connect {:host host
+                             :port db-port})]
+      (assoc component
+        :conn conn
+        :db (mg/get-db conn db-name))))
   (stop [{:keys [conn] :as component}]
-    (when conn (m/close-connection conn))
+    (when conn (mg/disconnect conn))
     (assoc component
-      :conn nil)))
+      :conn nil
+      :db nil)))
 
 (defn create-database [host db-name & [{:keys [db-port]}]]
   (map->Database {:host host
                   :db-name db-name
                   :db-port (or db-port 27017)}))
+
+
+
+
+
+
