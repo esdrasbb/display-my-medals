@@ -1,6 +1,6 @@
 # display-my-medals
 
-FIXME: description
+FIXME: same interface from https://github.com/esdrasbb/display-my-medals-java
 
 ## Installation
 
