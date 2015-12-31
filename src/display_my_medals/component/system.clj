@@ -8,6 +8,7 @@
 (defn load-system! [config]
   (let [{:keys [db-host db-name port]} config]
     (component/system-map
-      :handler (component/using (new-handler) [])
+      :db (component/using (create-database db-host db-name) [])
+      :handler (component/using (new-handler) [:db])
       :server (component/using (create-http-server port) [:handler])
-      :db (component/using (create-database db-host db-name) []))))
+      )))

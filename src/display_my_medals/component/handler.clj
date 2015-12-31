@@ -2,8 +2,17 @@
   (:require [compojure.handler :as handler]
             [compojure.core :refer [defroutes context routes]]
             [compojure.route :as route]
-            [com.stuartsierra.component :as component]
-            [display-my-medals.routes :as home-routes]))
+            [compojure.core :as comp]
+            [clojure.data.json :as json]
+            [display-my-medals.component.service :as service]
+            [com.stuartsierra.component :as component]))
+
+(defn home-routes []
+  (comp/routes
+    (comp/GET "/" [] (json/write-str {:body "iaeok"}))
+    (comp/GET "/insert" [] (service/insert-user [:username "Test"]))
+    (comp/GET "/find-all" [] (json/write-str (service/get-all-users [:db])))
+    ))
 
 (defroutes
   app-routes
@@ -12,14 +21,14 @@
 
 (defn get-all-routes []
   (routes
-    (home-routes/home-routes)
+    (home-routes)
     app-routes))
 
 (defn make-handler []
   (-> (get-all-routes)
-      (handler/site)))
+    (handler/site)))
 
-(defrecord Handler [scheduler]
+(defrecord Handler [db]
   component/Lifecycle
   (start [component]
     (assoc component :handler (make-handler)))
@@ -27,4 +36,5 @@
     (assoc component :handler nil)))
 
 (defn new-handler []
-  (map->Handler {}))
+  (map->Handler {})
+  )
