@@ -17,13 +17,7 @@
       :conn nil
       :db nil)))
 
-(defn create-database [host db-name & [{:keys [db-port]}]]
+(defn create-database [host db-name]
   (map->Database {:host host
                   :db-name db-name
-                  :db-port (or db-port 27017)}))
-
-
-
-
-
-
+                  :db-port 27017}))
